@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+ipdb = "*"
+v = {editable = true,version = "*"}
+
+[packages]
+ipython = "*"
+django-extensions = "==2.1.9"
+requests = "==2.22.0"
+pre-commit = "*"
+
+[requires]
+python_version = "3.7"
