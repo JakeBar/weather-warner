@@ -1,4 +1,5 @@
-from requests import HTTPError, Session
+import requests
+from requests import HTTPError
 
 API_KEY = "REDACTED"
 
@@ -10,7 +11,6 @@ class WeatherBitClient(object):
     """
 
     def __init__(self):
-        self.session = Session()
         self.api_key = API_KEY
         self.base_url = "https://api.weatherbit.io/v2.0/"
 
@@ -20,12 +20,13 @@ class WeatherBitClient(object):
         Convert the response to json and handle errors along the way.
         """
         try:
-            response = self.session.get(request_url, params=params)
+            response = requests.get(request_url, params=params)
             response.raise_for_status()
             return response.json()
         except HTTPError:
             # TODO something went wrong, handle this better
-            return response.content
+            raise
+        return response.content
 
     def get_hourly_forecast(self, postal_code: int, hours=24, country="Australia") -> dict:
         """
