@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:11.4
+
+  django:
+    working_dir: /app/
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python -Wall manage.py runserver_plus 0.0.0.0:8000
+    user: '1000'
+    restart: on-failure
+    stdin_open: false
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
+      - TERM=xterm-256color
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - ~/.ipython:/home/django/.ipython
+    ports:
+      - '8000:8000'
+    links:
+      - postgres
