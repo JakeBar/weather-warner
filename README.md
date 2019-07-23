@@ -1,6 +1,8 @@
 # weather-warner
 Simple Weather Notifications via Text (SMS)
 
+[![CircleCI](https://circleci.com/gh/JakeBar/weather-warner.svg?style=svg&circle-token=44b5a718bad263f1082e56881233f23ec3cc3165)](https://circleci.com/gh/JakeBar/weather-warner)
+
 ## Requirements
 
 * Docker Compose
@@ -10,7 +12,7 @@ Note: For Mac users, I recommend [Docker Desktop for Mac](https://docs.docker.co
 
 ## Setup
 
-1. Run `./dev_setup.sh` to install the dockerised application. This will install everything required and import the fixtures.
+1. Run `./dev_setup.sh` to install the dockerised application.
 
 ### Developer Tools
 

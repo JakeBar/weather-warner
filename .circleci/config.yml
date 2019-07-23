@@ -1,0 +1,101 @@
+# Python CircleCI configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2.1
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - lint
+      - test:
+          requires:
+            - lint
+
+jobs:
+  lint:
+    docker:
+      - image: circleci/python:3.7
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - pre-commit-dot-cache-{{ checksum ".pre-commit-config.yaml" }}
+            # fallback to using the latest cache if no exact match is found
+            - pre-commit-dot-cache-
+
+      - run:
+          name: Install Pre-Commit
+          command: |
+            sudo pip install pre-commit
+
+      - run:
+          name: Run Precommit Hooks
+          command: pre-commit run --show-diff-on-failure --source origin/master --origin HEAD
+
+      - save_cache:
+          key: pre-commit-dot-cache-{{ checksum ".pre-commit-config.yaml" }}
+          paths:
+            - /home/circleci/.cache/pre-commit
+
+  test:
+    docker:
+      - image: circleci/python:3.7
+      - image: circleci/postgres:11.4
+        environment:
+          POSTGRES_USER: postgres
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - pipenv-37-cache-{{ checksum "Pipfile.lock"}}
+            # fallback to using the latest cache if no exact match is found
+            - pipenv-37-cache-
+
+      - run:
+          name: Install System Packages
+          command: |
+            sudo apt update
+            sudo apt install -y postgresql-client
+            sudo pip install pipenv
+
+      - run:
+          name: Install Python Packages
+          command: sudo pipenv install --system --dev
+
+      - save_cache:
+          key: pipenv-37-cache-{{ checksum "Pipfile.lock"}}
+          paths:
+            - /home/circleci/.cache/pipenv
+
+      - run:
+          name: Prepare Postgres
+          command: |
+            psql -h localhost -p 5432 -U postgres -c "create database test_db;"
+            psql -h localhost -p 5432 -U postgres -c "alter user postgres password 'cipassword';"
+
+      - run:
+          name: Setup Path
+          command: echo 'export PATH=/home/circleci/.local/bin:$PATH' >> $BASH_ENV
+
+      - run:
+          name: Py Tests
+          environment:
+            DJANGO_SETTINGS_MODULE: weatherwarner.settings
+            DATABASE_URL: postgres://postgres:cipassword@localhost:5432/test_db
+          command: |
+            mkdir test-reports
+            pytest --tb=auto --durations=2 --log-level=ERROR --create-db --junitxml=test-reports/junit.xml
+
+      - store_test_results:
+          path: test-reports
+
+      - store_artifacts:
+          path: test-reports
