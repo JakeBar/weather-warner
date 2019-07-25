@@ -56,7 +56,7 @@ class ClientTestCase(TestCase):
         }
         mock_request.return_value.json.return_value = expected_data
         response = self.client.get_hourly_forecast(postal_code=3000)
-        self.assertEquals(response, expected_data)
+        self.assertEquals(response, expected_data["data"])
 
     @patch("requests.get")
     def test_forecast_failure(self, mock_request):

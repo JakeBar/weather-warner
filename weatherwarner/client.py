@@ -1,5 +1,6 @@
 import requests
 from requests import HTTPError
+from simplejson.scanner import JSONDecodeError
 
 API_KEY = "REDACTED"
 
@@ -23,7 +24,7 @@ class WeatherBitClient(object):
             response = requests.get(request_url, params=params)
             response.raise_for_status()
             return response.json()
-        except HTTPError:
+        except (HTTPError, JSONDecodeError):
             # TODO something went wrong, handle this better
             raise
         return response.content
@@ -40,4 +41,5 @@ class WeatherBitClient(object):
             "country": country,
             "postal_code": postal_code,
         }
-        return self.handle_request(request_url, query_params)
+        response = self.handle_request(request_url, query_params)
+        return response["data"]
