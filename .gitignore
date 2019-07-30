@@ -102,5 +102,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Static collected files
+/static_collected
+
 # IDE
 .vscode

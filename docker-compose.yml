@@ -16,6 +16,7 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
       - TERM=xterm-256color
+      - ALLOWED_HOSTS=*
     depends_on:
       - postgres
     volumes:

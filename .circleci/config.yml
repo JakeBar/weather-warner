@@ -88,7 +88,6 @@ jobs:
       - run:
           name: Py Tests
           environment:
-            DJANGO_SETTINGS_MODULE: weatherwarner.settings
             DATABASE_URL: postgres://postgres:cipassword@localhost:5432/test_db
           command: |
             mkdir test-reports
