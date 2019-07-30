@@ -1,15 +1,16 @@
 from django.test import TestCase
 from mock import patch
 from requests import HTTPError
-from weatherwarner.client import WeatherBitClient
+
+from weatherwarner.clients.weatherbit import WeatherBitClient, WeatherBitException
 
 
-class ClientTestCase(TestCase):
+class WeatherBitClientTestCase(TestCase):
     def setUp(self):
         self.client = WeatherBitClient()
 
     @patch("requests.get")
-    def test_forecast_success(self, mock_request):
+    def test_request_success(self, mock_request):
         expected_data = {
             "data": [
                 {
@@ -59,7 +60,7 @@ class ClientTestCase(TestCase):
         self.assertEquals(response, expected_data["data"])
 
     @patch("requests.get")
-    def test_forecast_failure(self, mock_request):
+    def test_request_failure(self, mock_request):
         mock_request.side_effect = HTTPError
-        with self.assertRaises(HTTPError):
+        with self.assertRaises(WeatherBitException):
             self.client.get_hourly_forecast(postal_code=3000)

@@ -22,7 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "e80q1y4i3-kq#g+@#%rsfh!(sdg*o6-+%&htc-3i47qcutpare"
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY", "e80q1y4i3-kq#g+@#%rsfh!(sdg*o6-+%&htc-3i47qcutpare"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -111,3 +113,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+# twilio
+# https://www.twilio.com/docs/iam/test-credentials
+TWILIO_FROM_NUMBER = os.environ.get("TWILIO_FROM_NUMBER", "+15005550006")
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "AC325849c15a3c802e573dd7a4c180ee12")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "3d877d09815da6607d023182fe252d4e")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        }
+    },
+    "handlers": {
+        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "standard"}
+    },
+    "loggers": {"": {"handlers": ["console"], "level": "INFO", "propagate": True}},
+}

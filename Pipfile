@@ -12,6 +12,8 @@ django-phonenumber-field ="==3.0.1"
 phonenumbers = "==8.10.15"
 ipython = "==7.6.1"
 requests = "==2.22.0"
+twilio = "~=6.29.2"
+simplejson = "~=3.16.0"
 
 [dev-packages]
 werkzeug = "==0.15.4"

@@ -1,8 +1,16 @@
+import logging
+
 import requests
 from requests import HTTPError
 from simplejson.scanner import JSONDecodeError
 
-API_KEY = "REDACTED"
+API_KEY = "fece651f3db440bfaf971cabec436684"
+
+log = logging.getLogger(__name__)
+
+
+class WeatherBitException(Exception):
+    pass
 
 
 class WeatherBitClient(object):
@@ -24,9 +32,8 @@ class WeatherBitClient(object):
             response = requests.get(request_url, params=params)
             response.raise_for_status()
             return response.json()
-        except (HTTPError, JSONDecodeError):
-            # TODO something went wrong, handle this better
-            raise
+        except (HTTPError, JSONDecodeError) as exc:
+            raise WeatherBitException(exc)
         return response.content
 
     def get_hourly_forecast(self, postal_code: int, hours=24, country="Australia") -> dict:
