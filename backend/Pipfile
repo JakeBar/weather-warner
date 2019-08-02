@@ -17,6 +17,7 @@ simplejson = "~=3.16.0"
 gunicorn = "*"
 whitenoise = ">=4.1.2,<4.2"
 sentry-sdk = "~=0.10.2"
+django-webpack4-loader = "~=0.0.5"
 
 [dev-packages]
 werkzeug = "==0.15.4"

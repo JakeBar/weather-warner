@@ -9,7 +9,10 @@ workflows:
   test:
     jobs:
       - lint
-      - test:
+      - test-django:
+          requires:
+            - lint
+      - test-javascript:
           requires:
             - lint
 
@@ -27,6 +30,17 @@ jobs:
             - pre-commit-dot-cache-{{ checksum ".pre-commit-config.yaml" }}
             # fallback to using the latest cache if no exact match is found
             - pre-commit-dot-cache-
+            - js-node-modules-{{ checksum "frontend/yarn.lock" }}
+      
+      - run:
+          name: Install Yarn & Frontend Packages
+          command: |
+            cd frontend
+            curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+            sudo apt-get install nodejs
+            curl -o- -L https://yarnpkg.com/install.sh | bash
+            export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH" >> $BASH_ENV
+            yarn install --frozen-lockfile
 
       - run:
           name: Install Pre-Commit
@@ -42,7 +56,12 @@ jobs:
           paths:
             - /home/circleci/.cache/pre-commit
 
-  test:
+      - save_cache:
+          key: js-node-modules-{{ checksum "frontend/yarn.lock" }}
+          paths:
+            - ./frontend/node_modules
+
+  test-django:
     docker:
       - image: circleci/python:3.7
       - image: circleci/postgres:11.4
@@ -104,3 +123,33 @@ jobs:
 
       - store_artifacts:
           path: backend/test-reports
+
+  test-javascript:
+    docker:
+      - image: circleci/node:10
+    resource_class: medium
+    steps:
+      - checkout
+      - restore_cache:
+          key: js-node-modules-{{ checksum "frontend/yarn.lock" }}
+      - run:
+          name: Install Frontend Packages
+          command: |
+            cd frontend
+            mkdir test-reports
+            yarn install --frozen-lockfile
+      - save_cache:
+          key: js-node-modules-{{ checksum "frontend/yarn.lock" }}
+          paths:
+            - ./frontend/node_modules
+      - run:
+          name: Js Tests
+          environment:
+            JEST_JUNIT_OUTPUT: "test-reports/js-test-results.xml"
+          command: |
+            cd frontend
+            yarn test
+      - store_test_results:
+          path: frontend/test-reports
+      - store_artifacts:
+          path: frontend/test-reports

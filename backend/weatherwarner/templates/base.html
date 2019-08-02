@@ -1,0 +1,23 @@
+<!DOCTYPE html>{% load static %} {% load render_entrypoint from webpack_loader %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Warner</title>
+    
+    <!-- Ensure App viewport is mobile friendly -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+    <!-- App Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+
+    <!-- Don't index this app -->
+    <meta name="robots" content="noindex">
+</head>
+
+<body>
+    {% block content %} {% endblock %}
+</body>
+
+</html>

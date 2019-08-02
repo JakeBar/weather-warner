@@ -16,7 +16,6 @@ repos:
 - repo: git://github.com/pre-commit/pre-commit-hooks
   rev: v2.2.3
   hooks:
-    - id: trailing-whitespace
     - id: debug-statements
     - id: check-yaml
     - id: name-tests-test
@@ -27,3 +26,18 @@ repos:
         'flake8-comprehensions',
         'flake8-pep3101',
       ]
+
+- repo: https://github.com/prettier/prettier
+  rev: '1.18.2' # Use the sha or tag you want to point at
+  hooks:
+    - id: prettier
+      files: '^.*\.tsx?$'
+
+- repo: local
+  hooks:
+  - id: eslint
+    name: eslint
+    files: '^.*\.tsx?$'
+    language: system
+    pass_filenames: true
+    entry: ./frontend/node_modules/.bin/eslint -c "./frontend/.eslintrc" --color

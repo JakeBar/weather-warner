@@ -1,0 +1,137 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier",
+        "prettier/react",
+        "prettier/@typescript-eslint"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "settings": {
+        "extensions": [
+            ".tsx",
+            ".ts"
+        ],
+        "paths": [
+            "./src"
+        ],
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".tsx",
+                    ".ts"
+                ],
+                "moduleDirectory": [
+                    "./",
+                    "./src"
+                ]
+            },
+            "webpack": {
+                "config": "./webpack.dev.js"
+            }
+        },
+        "react": {
+            "createClass": "createClass",
+            "pragma": "React",
+            "version": "16.0"
+        }
+    },
+    "rules": {
+        "@typescript-eslint/explicit-member-accessibility": false,
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "strict": 0,
+        "camelcase": "off",
+        "@typescript-eslint/camelcase": "off",
+        "semi": [
+            2,
+            "never"
+        ],
+        "@typescript-eslint/member-delimiter-style": {
+            "multiline": {
+                "delimiter": "none",
+                "requireLast": false
+            },
+            "singleline": {
+                "delimiter": "none",
+                "requireLast": false
+            }
+        },
+        "comma-dangle": [
+            2,
+            "always-multiline"
+        ],
+        "max-len": [
+            "error",
+            120,
+            2
+        ],
+        "id-length": 0,
+        "new-cap": [
+            2,
+            {
+                "capIsNewExceptions": [
+                    "AND"
+                ]
+            }
+        ],
+        "no-multiple-empty-lines": [
+            2,
+            {
+                "max": 1
+            }
+        ],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".tsx",
+                    ".tx"
+                ]
+            }
+        ],
+        "react/prefer-stateless-function": [
+            0,
+            {
+                "ignorePureComponents": true
+            }
+        ],
+        "react/forbid-prop-types": [
+            0,
+            {
+                "forbid": []
+            }
+        ],
+        "react/prop-types": 0,
+        "react/jsx-pascal-case": [
+            2,
+            {
+                "allowAllCaps": true
+            }
+        ],
+        "react/no-find-dom-node": 1,
+        "react/jsx-no-bind": [
+            2,
+            {
+                "ignoreRefs": true
+            }
+        ],
+        "import/no-extraneous-dependencies": [
+            2,
+            {
+                "devDependencies": true
+            }
+        ]
+    }
+}

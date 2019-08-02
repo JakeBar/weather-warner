@@ -18,6 +18,8 @@ lib/
 lib64/
 parts/
 sdist/
+node_modules
+.awcache/
 var/
 wheels/
 *.egg-info/
@@ -46,6 +48,8 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+junit.xml
+webpack-stats.json
 
 # Translations
 *.mo
@@ -110,3 +114,6 @@ venv.bak/
 
 # IDE
 .vscode
+
+# MacOS files
+.DS_Store

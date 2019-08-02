@@ -1,0 +1,31 @@
+{
+    "testEnvironment": "node",
+    "setupFiles": [
+        "<rootDir>/jest/setupEnzyme.ts"
+    ],
+    "verbose": true,
+    "globals": {},
+    "transform": {
+        "^.+\\.tsx?$": "ts-jest"
+    },
+    "roots": [
+        "<rootDir>",
+        "<rootDir>/src/"
+    ],
+    "modulePaths": [
+        "<rootDir>/src",
+        "<rootDir>/node_modules"
+    ],
+    "moduleFileExtensions": [
+        "ts",
+        "tsx",
+        "js"
+    ],
+    "testMatch": [
+        "**/__tests__/*.(tsx)"
+    ],
+    "reporters": [
+        "default",
+        "jest-junit"
+    ]
+}

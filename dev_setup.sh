@@ -11,7 +11,17 @@ docker-compose kill
 docker-compose rm -fv
 
 # Build App
-echo "🏗️  Building new containers..."
+echo "🏗️  Building app..."
+
+# Frontend
+pushd frontend
+yarn install --frozen-lockfile
+echo "Building frontend assets"
+yarn run build
+popd
+
+# Backend
+echo "Building new containers..."
 docker-compose build django
 
 # Run Migrations

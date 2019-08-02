@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "weatherwarner",
+    "webpack_loader",
 ]
 
 MIDDLEWARE = [
@@ -62,8 +63,7 @@ ROOT_URLCONF = "weatherwarner.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
+        "DIRS": [os.path.join(PROJECT_DIR, "templates")],
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -128,6 +128,16 @@ STATIC_URL = "/static/"
 # https://warehouse.python.org/project/whitenoise/
 
 WHITENOISE_ROOT = os.path.join(BASE_DIR, "../static", "public")
+
+# Frontend Webpack Loader
+# https://github.com/owais/django-webpack-loader
+
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "build/",  # must end with slash
+        "STATS_FILE": os.path.join(BASE_DIR, "../frontend/webpack-stats.json"),
+    }
+}
 
 # twilio
 # https://www.twilio.com/docs/iam/test-credentials

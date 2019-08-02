@@ -14,16 +14,35 @@ Note: For Mac users, I recommend [Docker Desktop for Mac](https://docs.docker.co
 
 1. Run `./dev_setup.sh` to install the dockerised application.
 
+## Usage 
+
+TODO
+
 ### Developer Tools
+
+#### Running Locally
+
+The webserver and webpack are required to run locally. Use the following commands:
+
+```
+dc up -d django
+yarn run start
+```
 
 #### Tests
 
-Run `./shortcuts.sh test` to start pytests.
+##### Backend
+
+1. Run `./shortcuts.sh test` to start pytests.
 
 Note: You can debug tests by inserting a breakpoint (_see Debugging_) and running:
 ```
 ./shortcuts.sh test --capture=no --pdb --pdbcls=IPython.terminal.debugger:Pdb--capture=no --pdb --pdbcls=IPython.terminal.debugger:Pdb
 ```
+
+##### Frontend
+
+1. Run `yarn run test` from the `frontend/` root directory to run the frontend test suite.
 
 #### Linting
 
