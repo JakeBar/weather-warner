@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from weatherwarner.factories import PostalCodeFactory, RecipientFactory
 from weatherwarner.models import PostalCode, Recipient
 

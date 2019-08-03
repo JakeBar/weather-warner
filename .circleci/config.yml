@@ -55,29 +55,34 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - pipenv-37-cache-{{ checksum "Pipfile.lock"}}
+            - pipenv-37-cache-{{ checksum "backend/Pipfile.lock"}}
             # fallback to using the latest cache if no exact match is found
             - pipenv-37-cache-
 
       - run:
           name: Install System Packages
           command: |
+            cd backend
             sudo apt update
             sudo apt install -y postgresql-client
             sudo pip install pipenv
 
       - run:
           name: Install Python Packages
-          command: sudo pipenv install --system --dev
+          command: |
+            cd backend
+            sudo pipenv install --system --dev
 
       - save_cache:
-          key: pipenv-37-cache-{{ checksum "Pipfile.lock"}}
+          key: pipenv-37-cache-{{ checksum "backend/Pipfile.lock"}}
           paths:
             - /home/circleci/.cache/pipenv
+            - "./backend/.venv"
 
       - run:
           name: Prepare Postgres
           command: |
+            cd backend
             psql -h localhost -p 5432 -U postgres -c "create database test_db;"
             psql -h localhost -p 5432 -U postgres -c "alter user postgres password 'cipassword';"
 
@@ -90,11 +95,12 @@ jobs:
           environment:
             DATABASE_URL: postgres://postgres:cipassword@localhost:5432/test_db
           command: |
+            cd backend
             mkdir test-reports
             pytest --tb=auto --durations=2 --log-level=ERROR --create-db --junitxml=test-reports/junit.xml
 
       - store_test_results:
-          path: test-reports
+          path: backend/test-reports
 
       - store_artifacts:
-          path: test-reports
+          path: backend/test-reports

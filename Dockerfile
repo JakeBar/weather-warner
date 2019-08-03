@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN pip install -U pip && pip install pipenv
 
-COPY ./Pipfile* /
+COPY ./backend/Pipfile* /
 
 RUN pipenv install --system --dev
 

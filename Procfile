@@ -1,2 +1,2 @@
 release: python manage.py migrate --noinput
-web: gunicorn weatherwarner.wsgi
+web: cd backend && gunicorn weatherwarner.wsgi

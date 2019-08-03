@@ -3,7 +3,7 @@
 lint() {
     changed_files=$(git diff HEAD --name-only --diff-filter=d)
     committed_files=$(git diff origin/master... --name-only --)
-    pipenv run pre-commit run -v --files $changed_files $committed_files
+    PIPENV_PIPFILE=./backend/Pipfile pipenv run pre-commit run -v --files $changed_files $committed_files
 }
 
 show_help_information() {
