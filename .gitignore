@@ -105,5 +105,8 @@ venv.bak/
 # Static collected files
 /static_collected
 
+# Mac stuff
+.DS_Store
+
 # IDE
 .vscode
