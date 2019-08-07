@@ -86,6 +86,8 @@ class ForecastTestCase(TestCase):
             "max_temp": 8.5,
             "min_temp": 8.2,
             "most_frequent_description": "Overcast clouds",
+            "average_pop": 0.0,
+            "average_wind_speed": 2.70305,
         }
         self.assertEquals(data_points, expected_data)
 
