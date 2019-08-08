@@ -6,7 +6,7 @@ describe('FormContainerPage', () => {
   describe('component', () => {
     it('Renders simple component', () => {
       const wrapper = shallow(<FormContainer />)
-      expect(wrapper.text()).toEqual('Hello World!')
+      expect(wrapper.find('Fragment')).toHaveLength(1)
     })
   })
 })
