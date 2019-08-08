@@ -20,7 +20,7 @@ const SignUpForm = () => (
             <Input placeholder="Mister Monday" type="text" />
           </Form.Field>
           <Form.Field fluid>
-            <label style={{ color: 'white' }}>Phone Number</label>
+            <label style={{ color: 'white' }}>Phone number</label>
             <Input placeholder="+614 21 222 333" icon="phone" iconPosition="left" type="tel" />
           </Form.Field>
           <Form.Field fluid>

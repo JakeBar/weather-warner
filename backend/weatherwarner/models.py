@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator
 from django.db import models
+from django.utils.crypto import get_random_string
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -25,6 +26,16 @@ class Recipient(models.Model):
     name = models.CharField(max_length=256)
     postal_code = models.ForeignKey(PostalCode, related_name="recipients", on_delete=models.CASCADE)
     phone_number = PhoneNumberField(help_text="The phone number to receive the texts")
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"[{self.phone_number}] {self.name} ({self.postal_code})"
+        return f"[{self.phone_number}] {self.name} {self.postal_code}"
+
+    def save(self, *args, **kwargs):
+        self.verification_code = get_random_string(length=6, allowed_chars="0123456789ABCDEF")
+        super().save(*args, **kwargs)
+
+    @property
+    def customer_friendly_number(self):
+        return self.phone_number.as_e164

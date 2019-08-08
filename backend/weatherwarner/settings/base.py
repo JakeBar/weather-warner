@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "weatherwarner",
     "webpack_loader",
 ]
@@ -159,4 +160,10 @@ LOGGING = {
         "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "standard"}
     },
     "loggers": {"": {"handlers": ["console"], "level": "INFO", "propagate": True}},
+}
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle"],
+    "DEFAULT_THROTTLE_RATES": {"anon": "50/day"},
 }

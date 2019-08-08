@@ -25,8 +25,12 @@ echo "Building new containers..."
 docker-compose build django
 
 # Run Migrations
-echo "🗄️  Migrating database..."
+echo "🗄️ Migrating database..."
 docker-compose run --rm django ./manage.py migrate
+
+# Run Migrations
+echo "Importing fixtures..."
+docker-compose run --rm django ./manage.py loaddata data/postcodes.json
 
 docker-compose up -d django
 echo "Server is now running 👟 at http://0.0.0.0:8000/"
