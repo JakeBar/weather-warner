@@ -29,11 +29,14 @@ class VerificationViewSet(viewsets.ViewSet):
         """
 
         data = request.data.copy()
+
         if "phone_number" in data:
             try:
                 data["phone_number"] = phonenumbers.parse(data["phone_number"], "AU")
             except Exception:
-                content = "Invalid Phone Number. Please try another. e.g. 0421 900 800"
+                content = {
+                    "phone_number": ["Invalid Phone Number. Please try another. e.g. 0421 900 800"]
+                }
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = RecipientSerializer(data=request.data)

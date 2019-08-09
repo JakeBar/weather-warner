@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: python -Wall manage.py runserver_plus 0.0.0.0:8000
+    command: python -Wall manage.py runserver_plus 0.0.0.0:8005
     user: '1000'
     restart: on-failure
     stdin_open: false
@@ -23,6 +23,6 @@ services:
       - .:/app
       - ~/.ipython:/home/django/.ipython
     ports:
-      - '8000:8000'
+      - '8005:8005'
     links:
       - postgres

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "phonenumber_field",
     "rest_framework",
     "weatherwarner",
     "webpack_loader",
@@ -167,3 +168,6 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle"],
     "DEFAULT_THROTTLE_RATES": {"anon": "50/day"},
 }
+
+PHONENUMBER_DEFAULT_REGION = "AU"
+PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"

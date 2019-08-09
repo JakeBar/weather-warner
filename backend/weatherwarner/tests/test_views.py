@@ -35,24 +35,46 @@ class RequestVerificationTestCase(TestCase):
         self.assertFalse(recipient.verified)
         mock_text.assert_called_once()
 
-    # # TODO come back to this
-    # @patch("weatherwarner.api.send_text")
-    # def test_request_verification_customer_friendly(self, mock_text):
-    #     mock_text.return_value = True
-    #     self.recipient_data["phone_number"] = "04 219 666 222"
+    @patch("weatherwarner.api.send_text")
+    def test_request_verification_customer_friendly(self, mock_text):
+        mock_text.return_value = True
+        self.recipient_data["phone_number"] = "04 21 666 222"
 
-    #     self.assertEqual(Recipient.objects.count(), 0)
+        self.assertEqual(Recipient.objects.count(), 0)
 
-    #     response = self.client.post("/api/verification/request/", data=self.recipient_data)
+        response = self.client.post("/api/verification/request/", data=self.recipient_data)
 
-    #     self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
-    #     recipient = Recipient.objects.first()
+        recipient = Recipient.objects.first()
 
-    #     self.assertEqual(recipient.name, self.recipient_data["name"])
-    #     self.assertEqual(str(recipient.postal_code.code), self.recipient_data["postal_code"])
-    #     self.assertEqual(recipient.customer_friendly_number, self.recipient_data["phone_number"])
-    #     mock_text.assert_called_once()
+        self.assertEqual(recipient.name, self.recipient_data["name"])
+        self.assertEqual(str(recipient.postal_code.code), self.recipient_data["postal_code"])
+
+        phone_number = phonenumbers.parse(self.recipient_data["phone_number"], "AU")
+        formatted_number = phonenumbers.format_number(
+            phone_number, phonenumbers.PhoneNumberFormat.E164
+        )
+        self.assertEqual(recipient.customer_friendly_number, formatted_number)
+
+        mock_text.assert_called_once()
+
+    @patch("weatherwarner.api.send_text")
+    def test_request_verification_customer_friendly_too_many_digits(self, mock_text):
+        mock_text.return_value = True
+        self.recipient_data["phone_number"] = "04 21 666 222 999999999"
+
+        self.assertEqual(Recipient.objects.count(), 0)
+
+        response = self.client.post("/api/verification/request/", data=self.recipient_data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.json(),
+            {"phone_number": ["Invalid Phone Number. Please try another. e.g. 0421 900 800"]},
+        )
+
+        self.assertEqual(Recipient.objects.count(), 0)
 
     @patch("weatherwarner.api.send_text")
     def test_request_verification_invalid_number_symbols(self, mock_text):
