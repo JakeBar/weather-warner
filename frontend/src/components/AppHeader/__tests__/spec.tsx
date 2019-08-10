@@ -6,7 +6,7 @@ describe('AppHeader', () => {
   describe('component', () => {
     it('Renders AppHeader component', () => {
       const wrapper = shallow(<AppHeader />)
-      expect(wrapper.find('Segment')).toHaveLength(1)
+      expect(wrapper.find('Header')).toHaveLength(1)
     })
   })
 })

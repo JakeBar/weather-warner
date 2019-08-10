@@ -17,8 +17,9 @@ const useSignUpForm = (callback: Function) => {
     callback()
   }
 
-  const handleFormValues = (event: { target: HTMLInputElement }) => {
-    setFormValues(currentValues => ({ ...currentValues, [event.target.name]: event.target.value }))
+  const handleFormValues = (event: any) => {
+    event.persist()
+    setFormValues(formValues => ({ ...formValues, [event.target.name]: event.target.value }))
   }
 
   return {

@@ -82,7 +82,7 @@ class VerificationViewSet(viewsets.ViewSet):
                 verification_code=verification_code, phone_number=phone_number
             )
         except Recipient.DoesNotExist:
-            content = {"message": ["Invalid verification code. Please try again."]}
+            content = {"verification_code": ["Invalid verification code. Please try again."]}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         recipient.verified = True
