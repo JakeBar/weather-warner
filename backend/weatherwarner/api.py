@@ -92,9 +92,7 @@ class VerificationViewSet(viewsets.ViewSet):
         recipient.save()
 
         # Send a confirmation text
-        message = (
-            "You're subscribed to Weather Warner! Text the word STOP if you wish to unsubscribe"
-        )
+        message = "You're subscribed to Weather Warner! Text your number if you wish to unsubscribe"
         send_text(phone_number=recipient.phone_number.as_e164, message=message)
 
         return Response(status=status.HTTP_200_OK)
@@ -112,7 +110,7 @@ class SubscriptionViewSet(viewsets.ViewSet):
         log.info(request.data)
 
         try:
-            raw_number = self.request.data.get("from")
+            raw_number = self.request.data.get("Body")
             phone_number = phonenumbers.parse(raw_number, "AU")
         except Exception as exception:
             # Could not pass received number from twilio

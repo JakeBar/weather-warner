@@ -240,14 +240,7 @@ class UnsubscribeTestCase(TestCase):
         )
 
     def test_unsubscribe_success(self):
-        mock_values = {
-            "body": "Join Earth's mightiest heroes. Like Kevin Bacon.",
-            "date_created": "Thu, 30 Jul 2015 20:12:31 +0000",
-            "date_sent": "Thu, 30 Jul 2015 20:12:33 +0000",
-            "date_updated": "Thu, 30 Jul 2015 20:12:33 +0000",
-            "direction": "inbound-api",
-            "from": "+61421955955",
-        }
+        mock_values = {"Body": "+61421955955"}
 
         response = self.client.post("/api/subscription/unsubscribe/", data=mock_values)
 
@@ -257,14 +250,7 @@ class UnsubscribeTestCase(TestCase):
         )
 
     def test_unsubscribe_does_not_exist(self):
-        mock_values = {
-            "body": "Join Earth's mightiest heroes. Like Kevin Bacon.",
-            "date_created": "Thu, 30 Jul 2015 20:12:31 +0000",
-            "date_sent": "Thu, 30 Jul 2015 20:12:33 +0000",
-            "date_updated": "Thu, 30 Jul 2015 20:12:33 +0000",
-            "direction": "inbound-api",
-            "from": "+61421950000",
-        }
+        mock_values = {"Body": "+61421950000"}
 
         response = self.client.post("/api/subscription/unsubscribe/", data=mock_values)
 
