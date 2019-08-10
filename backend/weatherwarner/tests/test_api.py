@@ -160,7 +160,7 @@ class ValidateVerificationTestCase(TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-            response.json(), {"message": ["Invalid verification code. Please try again."]}
+            response.json(), {"verification_code": ["Invalid verification code. Please try again."]}
         )
 
         self.recipient.refresh_from_db()
@@ -178,7 +178,7 @@ class ValidateVerificationTestCase(TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-            response.json(), {"message": ["Invalid verification code. Please try again."]}
+            response.json(), {"verification_code": ["Invalid verification code. Please try again."]}
         )
 
         self.recipient.refresh_from_db()
@@ -215,7 +215,7 @@ class ValidateVerificationTestCase(TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-            response.json(), {"message": ["Invalid verification code. Please try again."]}
+            response.json(), {"verification_code": ["Invalid verification code. Please try again."]}
         )
 
         self.recipient.refresh_from_db()

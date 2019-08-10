@@ -15,7 +15,7 @@ class PostalCode(models.Model):
     )
 
     def __str__(self):
-        return f"[{self.code}] Postal Code"
+        return f"{self.code}"
 
 
 class Recipient(models.Model):

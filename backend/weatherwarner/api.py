@@ -1,3 +1,5 @@
+import logging
+
 import phonenumbers
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -9,6 +11,8 @@ from rest_framework.throttling import AnonRateThrottle
 from .clients.twilio import send_text
 from .models import Recipient
 from .serializers import RecipientSerializer, VerificationCodeSerializer
+
+log = logging.getLogger(__name__)
 
 
 @ensure_csrf_cookie
@@ -78,7 +82,7 @@ class VerificationViewSet(viewsets.ViewSet):
                 verification_code=verification_code, phone_number=phone_number
             )
         except Recipient.DoesNotExist:
-            content = {"message": ["Invalid verification code. Please try again."]}
+            content = {"verification_code": ["Invalid verification code. Please try again."]}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         recipient.verified = True
