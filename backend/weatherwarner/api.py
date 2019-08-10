@@ -109,6 +109,8 @@ class SubscriptionViewSet(viewsets.ViewSet):
         Unsubscribe a recipient. This is a webhook triggered by Twilio.
         """
 
+        log.info(request.data)
+
         try:
             raw_number = self.request.data.get("from")
             phone_number = phonenumbers.parse(raw_number, "AU")
