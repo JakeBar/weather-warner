@@ -4,6 +4,7 @@ const BundleTracker = require('webpack4-bundle-tracker')
 const { CheckerPlugin } = require('awesome-typescript-loader')
 
 module.exports = {
+  mode: 'production',
   entry: [
     './src/index.tsx',
   ],
