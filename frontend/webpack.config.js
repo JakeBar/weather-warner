@@ -3,11 +3,11 @@ const path = require('path')
 const BundleTracker = require('webpack4-bundle-tracker')
 const { CheckerPlugin } = require('awesome-typescript-loader')
 
+const context = path.resolve(__dirname, 'src')
 module.exports = {
   mode: 'production',
-  entry: [
-    './src/index.tsx',
-  ],
+  context,
+  entry: './index.tsx',
   devtool: 'inline-source-map',
   plugins: [
     new BundleTracker({ filename: './webpack-stats.json' }),
