@@ -1,3 +1,4 @@
+import phonenumbers
 from django.conf import settings
 from django.db import connection, reset_queries
 from django.test import TestCase
@@ -53,7 +54,7 @@ EXPECTED_WEATHERBIT_DATA = [
 )
 class TaskRunnerTestCase(TestCase):
     def setUp(self):
-        self.recipient = RecipientFactory()
+        self.recipient = RecipientFactory(subscribed=True)
         self.postal_code = PostalCodeFactory()
 
     @patch.object(TwilioClient, "messages")
@@ -70,10 +71,22 @@ class TaskRunnerTestCase(TestCase):
         """
         Assert multiples SMSes are successfully sent if there are two ore more recipients
         """
-        self.second_recipient = RecipientFactory()
+        self.second_recipient = RecipientFactory(
+            phone_number=phonenumbers.parse("+61421951234", "AU"), subscribed=True
+        )
         mock_twilio.create.return_value = "Hi there, the weather will be great today!"
         result = send_weather_report()
         self.assertEquals(result, 2)
+
+    @patch.object(TwilioClient, "messages")
+    def test_weather_report_success_unsubscribed_recipients(self, mock_twilio):
+        """
+        Assert multiples SMSes are successfully sent if there are two ore more recipients
+        """
+        self.second_recipient = RecipientFactory(subscribed=True)
+        mock_twilio.create.return_value = "Hi there, the weather will be great today!"
+        result = send_weather_report()
+        self.assertEquals(result, 1)
 
     @patch.object(TwilioClient, "messages")
     def test_weather_report_success_no_recipients(self, mock_twilio):
@@ -106,10 +119,13 @@ class TaskRunnerTestCase(TestCase):
         """
         Assert the number of minimum no. db connections are made for an Weather report.
         """
-        for _ in range(5):
+        for i in range(5):
             postal_code = PostalCodeFactory()
-            for _ in range(10):
-                RecipientFactory(postal_code=postal_code)
+            for j in range(10):
+                phone_number = f"+614219555{i}{j}"
+                RecipientFactory(
+                    postal_code=postal_code, phone_number=phonenumbers.parse(phone_number, "AU")
+                )
 
         settings.DEBUG = True
         reset_queries()
@@ -119,11 +135,5 @@ class TaskRunnerTestCase(TestCase):
         mock_twilio.create.return_value = "Hi there, the weather will be great today!"
         send_weather_report()
 
-        """
-        Assert 2 Queries are made for > 1 Postcode with > 1 Recipients:
-        - PostalCode
-        - Prefetched Recipients
-        """
-
-        self.assertEqual(len(connection.queries), 2)
+        self.assertEqual(len(connection.queries), 9)
         settings.DEBUG = False

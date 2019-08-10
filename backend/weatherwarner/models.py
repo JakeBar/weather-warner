@@ -25,9 +25,10 @@ class Recipient(models.Model):
 
     name = models.CharField(max_length=256)
     postal_code = models.ForeignKey(PostalCode, related_name="recipients", on_delete=models.CASCADE)
-    phone_number = PhoneNumberField(help_text="The phone number to receive the texts")
+    phone_number = PhoneNumberField(unique=True, help_text="The phone number to receive the texts")
     verification_code = models.CharField(max_length=6, blank=True, null=True)
     verified = models.BooleanField(default=False)
+    subscribed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"[{self.phone_number}] {self.name} {self.postal_code}"

@@ -4,7 +4,6 @@ export interface ErrorValues {
 }
 
 export interface VerificationFormProps {
-  phoneNumber: string
   submitValidation: Function
   formErrors: ErrorValues
 }

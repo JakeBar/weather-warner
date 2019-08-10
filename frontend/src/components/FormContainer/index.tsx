@@ -16,7 +16,6 @@ const FormContainer = () => {
   const defaultProps = {
     submitted: false,
     verified: false,
-    phone_number: '',
     formErrors: {
       general: '',
       name: '',
@@ -31,7 +30,7 @@ const FormContainer = () => {
     axios
       .post('/api/verification/request/', data)
       .then(() => {
-        setState({ ...state, submitted: true, phone_number: data.phone_number })
+        setState({ ...state, submitted: true })
       })
       .catch(error => {
         if (error && error.response && error.response.status === 429) {
@@ -57,9 +56,8 @@ const FormContainer = () => {
       })
   }
 
-  const validateCode = (phone_number: string, data: VerificationFormValues) => {
+  const validateCode = (data: VerificationFormValues) => {
     const payload = {
-      phone_number,
       verification_code: data.verificationCode,
     }
     axios
@@ -95,13 +93,7 @@ const FormContainer = () => {
   if (!state.submitted) {
     currentForm = <SignUpForm formErrors={state.formErrors} submitDetails={requestVerification} />
   } else if (!state.verified) {
-    currentForm = (
-      <VerificationForm
-        phoneNumber={state.phone_number}
-        submitValidation={validateCode}
-        formErrors={state.formErrors}
-      />
-    )
+    currentForm = <VerificationForm submitValidation={validateCode} formErrors={state.formErrors} />
   } else if (state.verified) {
     currentForm = <SignUpSuccess />
   }

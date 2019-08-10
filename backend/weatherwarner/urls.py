@@ -3,10 +3,11 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 
-from .api import VerificationViewSet, app
+from .api import SubscriptionViewSet, VerificationViewSet, app
 
 router = routers.DefaultRouter()
 router.register(r"verification", VerificationViewSet, basename="verification")
+router.register(r"subscription", SubscriptionViewSet, basename="subscription")
 
 urlpatterns = [
     url("api/", include(router.urls)),

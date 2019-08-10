@@ -9,6 +9,5 @@ export interface ErrorValues {
 export interface ApplicationState {
   submitted: boolean
   verified: boolean
-  phone_number: string
   formErrors: ErrorValues
 }
