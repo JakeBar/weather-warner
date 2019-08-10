@@ -28,6 +28,9 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.jsx', '.js','.html' ],
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    alias: {
+      static: path.join(__dirname, '../static'),
+    },
   },
 }
