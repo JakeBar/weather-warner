@@ -1,4 +1,3 @@
-// TODO change away from camelCase on frontend
 export interface ErrorValues {
   general: string
   name: string

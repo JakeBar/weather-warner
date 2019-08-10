@@ -4,7 +4,7 @@ import React, { useState, Fragment } from 'react'
 import { Container, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import Footer from '../Footer'
-import AppHeader from '../AppHeader'
+import Header from '../Header'
 import SignUpForm from '../SignUpForm/index'
 import { ApplicationState } from './types'
 import { FormValues as SignUpFormValues } from '../SignUpForm/types'
@@ -74,15 +74,17 @@ const FormContainer = () => {
             ...state,
             formErrors: {
               ...state.formErrors,
-              verification_code: msg,
+              general: msg,
             },
           })
         } else if (error && error.response) {
+          const msg = 'Please ensure the verification code is correct.'
           setState({
             ...state,
             formErrors: {
               ...state.formErrors,
-              verification_code: error.response.data.verification_code,
+              ...error.response.data,
+              general: msg,
             },
           })
         }
@@ -97,19 +99,20 @@ const FormContainer = () => {
       <VerificationForm
         phoneNumber={state.phone_number}
         submitValidation={validateCode}
-        error={state.formErrors.verification_code}
+        formErrors={state.formErrors}
       />
     )
   } else if (state.verified) {
     currentForm = <SignUpSuccess />
   }
+  // currentForm = <SignUpSuccess />
 
   return (
     <Fragment>
       <Container>
         <Grid textAlign="center" style={{ height: '95vh' }} verticalAlign="middle">
           <Grid.Column textAlign="left" style={{ maxWidth: 400 }}>
-            <AppHeader />
+            <Header />
             {currentForm}
           </Grid.Column>
         </Grid>

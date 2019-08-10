@@ -1,7 +1,12 @@
+export interface ErrorValues {
+  general: string
+  verification_code: string
+}
+
 export interface VerificationFormProps {
   phoneNumber: string
   submitValidation: Function
-  error: string
+  formErrors: ErrorValues
 }
 
 export interface FormValues {

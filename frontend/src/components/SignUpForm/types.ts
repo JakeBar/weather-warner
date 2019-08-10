@@ -1,4 +1,9 @@
-import { ErrorValues } from '../FormContainer/types'
+export interface ErrorValues {
+  general: string
+  name: string
+  phone_number: string
+  postal_code: string
+}
 
 export interface SignUpFormProps {
   submitDetails: Function

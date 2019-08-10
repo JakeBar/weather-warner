@@ -3,7 +3,10 @@ import { shallow } from 'enzyme'
 import VerificationForm from '../index'
 
 const mockProps = {
-  error: '',
+  formErrors: {
+    general: '',
+    verification_code: '',
+  },
   phoneNumber: '0421999444',
   submitValidation: (f: Function) => f,
 }
