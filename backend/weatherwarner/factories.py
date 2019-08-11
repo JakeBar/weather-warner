@@ -13,9 +13,17 @@ class PostalCodeFactory(factory.DjangoModelFactory):
         model = models.PostalCode
 
 
+class PostCodeFactory(factory.DjangoModelFactory):
+    code = factory.LazyAttribute(lambda x: random.randrange(0000, 9999))
+
+    class Meta:
+        model = models.PostCode
+
+
 class RecipientFactory(factory.DjangoModelFactory):
     name = "Charles Darrow"
     postal_code: models.PostalCode = factory.SubFactory(PostalCodeFactory)
+    postcode: models.PostCode = factory.SubFactory(PostCodeFactory)
     phone_number = example_number_for_type(region_code="AU", num_type=PhoneNumberType.MOBILE)
 
     class Meta:

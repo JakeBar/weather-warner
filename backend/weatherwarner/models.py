@@ -18,6 +18,18 @@ class PostalCode(models.Model):
         return f"{self.code}"
 
 
+class PostCode(models.Model):
+    """
+    Postal Code used for querying the weather forecast. Designed for AU postcodes.
+    e.g. 3025, 2000, etc.
+    """
+
+    code = models.IntegerField(validators=[MaxValueValidator(9999)])
+
+    def __str__(self):
+        return f"{self.code}"
+
+
 class Recipient(models.Model):
     """
     Recipient - A user of Weather Warner
@@ -25,6 +37,7 @@ class Recipient(models.Model):
 
     name = models.CharField(max_length=256)
     postal_code = models.ForeignKey(PostalCode, related_name="recipients", on_delete=models.CASCADE)
+    postcode = models.ForeignKey(PostCode, on_delete=models.CASCADE)
     phone_number = PhoneNumberField(unique=True, help_text="The phone number to receive the texts")
     verification_code = models.CharField(max_length=6, blank=True, null=True)
     verified = models.BooleanField(default=False)
