@@ -56,11 +56,11 @@ class WeatherBitClientTestCase(TestCase):
             "state_code": "VIC",
         }
         mock_request.return_value.json.return_value = expected_data
-        response = self.client.get_hourly_forecast(postal_code=3000)
+        response = self.client.get_hourly_forecast(postcode=3000)
         self.assertEquals(response, expected_data["data"])
 
     @patch("requests.get")
     def test_request_failure(self, mock_request):
         mock_request.side_effect = HTTPError
         with self.assertRaises(WeatherBitException):
-            self.client.get_hourly_forecast(postal_code=3000)
+            self.client.get_hourly_forecast(postcode=3000)

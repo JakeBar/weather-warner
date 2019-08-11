@@ -2,7 +2,7 @@ export interface ErrorValues {
   general: string
   name: string
   phone_number: string
-  postal_code: string
+  postcode: string
 }
 
 export interface SignUpFormProps {
@@ -12,6 +12,6 @@ export interface SignUpFormProps {
 
 export interface FormValues {
   name: string
-  postal_code: string
+  postcode: string
   phone_number: string
 }

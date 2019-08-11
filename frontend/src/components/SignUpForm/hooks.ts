@@ -5,7 +5,7 @@ const useSignUpForm = (callback: Function) => {
   const defaultProps = {
     name: '',
     phone_number: '',
-    postal_code: '',
+    postcode: '',
   }
 
   const [formValues, setFormValues] = useState<FormValues>(defaultProps)

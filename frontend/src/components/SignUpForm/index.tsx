@@ -18,7 +18,7 @@ const SignUpForm = (props: SignUpFormProps) => {
   const { formErrors } = props
   const nameErrors = formErrors.name ? { error: formErrors.name } : {}
   const phoneNumberErrors = formErrors.phone_number ? { error: formErrors.phone_number } : {}
-  const postalCodeErrors = formErrors.postal_code ? { error: formErrors.postal_code } : {}
+  const postalCodeErrors = formErrors.postcode ? { error: formErrors.postcode } : {}
 
   useEffect(() => {
     setVisiblity(true)
@@ -60,11 +60,11 @@ const SignUpForm = (props: SignUpFormProps) => {
             <Form.Input
               {...postalCodeErrors}
               placeholder="3000"
-              name="postal_code"
+              name="postcode"
               type="text"
               required
               onChange={handleFormValues}
-              value={formValues.postal_code}
+              value={formValues.postcode}
               icon="compass outline"
               iconPosition="left"
             />

@@ -7,7 +7,7 @@ const mockProps = {
     general: '',
     name: '',
     phone_number: '',
-    postal_code: '',
+    postcode: '',
     verification_code: '',
   },
   submitDetails: (f: Function) => f,

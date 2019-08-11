@@ -6,7 +6,7 @@ from .models import Recipient
 class RecipientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipient
-        fields = ["name", "postal_code", "phone_number"]
+        fields = ["name", "postcode", "phone_number"]
 
 
 class VerificationCodeSerializer(serializers.Serializer):

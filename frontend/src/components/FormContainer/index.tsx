@@ -20,7 +20,7 @@ const FormContainer = () => {
       general: '',
       name: '',
       phone_number: '',
-      postal_code: '',
+      postcode: '',
       verification_code: '',
     },
   }

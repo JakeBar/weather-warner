@@ -2,7 +2,7 @@ export interface ErrorValues {
   general: string
   name: string
   phone_number: string
-  postal_code: string
+  postcode: string
   verification_code: string
 }
 

@@ -35,7 +35,7 @@ class WeatherBitClient(object):
             raise WeatherBitException(exc)
         return response.content
 
-    def get_hourly_forecast(self, postal_code: int, hours=24, country="Australia") -> dict:
+    def get_hourly_forecast(self, postcode: int, hours=24, country="Australia") -> dict:
         """
         Get the hourly forecast for an area.
         https://www.weatherbit.io/api/weather-forecast-120-hour
@@ -45,7 +45,7 @@ class WeatherBitClient(object):
             "key": self.api_key,
             "hours": hours,
             "country": country,
-            "postal_code": postal_code,
+            "postcode": postcode,
         }
         response = self.handle_request(request_url, query_params)
         return response["data"]

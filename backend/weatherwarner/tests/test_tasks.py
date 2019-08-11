@@ -6,7 +6,7 @@ from mock import MagicMock, patch
 from twilio.base.exceptions import TwilioException
 from twilio.rest import Client as TwilioClient
 
-from weatherwarner.factories import PostalCodeFactory, RecipientFactory
+from weatherwarner.factories import PostCodeFactory, RecipientFactory
 from weatherwarner.models import Recipient
 from weatherwarner.tasks import send_weather_report
 
@@ -55,7 +55,7 @@ EXPECTED_WEATHERBIT_DATA = [
 class TaskRunnerTestCase(TestCase):
     def setUp(self):
         self.recipient = RecipientFactory(subscribed=True)
-        self.postal_code = PostalCodeFactory()
+        self.postcode = PostCodeFactory()
 
     @patch.object(TwilioClient, "messages")
     def test_weather_report_success(self, mock_twilio):
@@ -120,11 +120,11 @@ class TaskRunnerTestCase(TestCase):
         Assert the number of minimum no. db connections are made for an Weather report.
         """
         for i in range(5):
-            postal_code = PostalCodeFactory()
+            postcode = PostCodeFactory()
             for j in range(10):
                 phone_number = f"+614219555{i}{j}"
                 RecipientFactory(
-                    postal_code=postal_code, phone_number=phonenumbers.parse(phone_number, "AU")
+                    postcode=postcode, phone_number=phonenumbers.parse(phone_number, "AU")
                 )
 
         settings.DEBUG = True

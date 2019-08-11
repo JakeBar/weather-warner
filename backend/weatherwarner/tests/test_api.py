@@ -2,16 +2,16 @@ import phonenumbers
 from django.test import TestCase
 from mock import patch
 
-from weatherwarner.factories import PostalCodeFactory, RecipientFactory
+from weatherwarner.factories import PostCodeFactory, RecipientFactory
 from weatherwarner.models import Recipient
 
 
 class RequestVerificationTestCase(TestCase):
     def setUp(self):
-        self.postal_code = PostalCodeFactory()
+        self.postcode = PostCodeFactory()
         self.recipient_data = {
             "name": "Jack",
-            "postal_code": str(self.postal_code.code),
+            "postcode": str(self.postcode.code),
             "phone_number": "+61421955955",
         }
 
@@ -28,7 +28,7 @@ class RequestVerificationTestCase(TestCase):
         recipient = Recipient.objects.first()
 
         self.assertEqual(recipient.name, self.recipient_data["name"])
-        self.assertEqual(str(recipient.postal_code.code), self.recipient_data["postal_code"])
+        self.assertEqual(str(recipient.postcode.code), self.recipient_data["postcode"])
         self.assertEqual(recipient.customer_friendly_number, self.recipient_data["phone_number"])
 
         self.assertFalse(recipient.verified)
@@ -49,7 +49,7 @@ class RequestVerificationTestCase(TestCase):
         recipient = Recipient.objects.first()
 
         self.assertEqual(recipient.name, self.recipient_data["name"])
-        self.assertEqual(str(recipient.postal_code.code), self.recipient_data["postal_code"])
+        self.assertEqual(str(recipient.postcode.code), self.recipient_data["postcode"])
 
         phone_number = phonenumbers.parse(self.recipient_data["phone_number"], "AU")
         formatted_number = phonenumbers.format_number(
@@ -97,7 +97,7 @@ class RequestVerificationTestCase(TestCase):
     def test_request_verification_postcode_does_not_exist(self, mock_text):
         mock_text.return_value = True
 
-        self.recipient_data["postal_code"] = "9999"
+        self.recipient_data["postcode"] = "9999"
 
         self.assertEqual(Recipient.objects.count(), 0)
 
@@ -105,7 +105,7 @@ class RequestVerificationTestCase(TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-            response.json(), {"postal_code": ['Invalid pk "9999" - object does not exist.']}
+            response.json(), {"postcode": ['Invalid pk "9999" - object does not exist.']}
         )
 
         self.assertEqual(Recipient.objects.count(), 0)
@@ -128,7 +128,7 @@ class RequestVerificationTestCase(TestCase):
 
 class ValidateVerificationTestCase(TestCase):
     def setUp(self):
-        self.postal_code = PostalCodeFactory()
+        self.postcode = PostCodeFactory()
         self.recipient = RecipientFactory(
             verification_code="123456", phone_number=phonenumbers.parse("+61421955955", "AU")
         )
