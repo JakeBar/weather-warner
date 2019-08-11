@@ -1,10 +1,9 @@
 import logging
 
 import requests
+from django.conf import settings
 from requests import HTTPError
 from simplejson.scanner import JSONDecodeError
-
-API_KEY = "fece651f3db440bfaf971cabec436684"
 
 log = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ class WeatherBitClient(object):
     """
 
     def __init__(self):
-        self.api_key = API_KEY
+        self.api_key = settings.WEATHER_BIT_API_KEY
         self.base_url = "https://api.weatherbit.io/v2.0/"
 
     def handle_request(self, request_url: str, params) -> dict:

@@ -14,7 +14,7 @@ Available subcommands:
     logs:   Follow the logs for the app container
     test:   Run one or more tests
     lint:   Run isort, flake8 and black on changed files
-    shell:   Open a shell_plus session
+    shell:  Open a shell_plus session
 
     Other arguments are passed to manage.py by default.
 
