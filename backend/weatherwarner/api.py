@@ -1,12 +1,14 @@
 import logging
 
 import phonenumbers
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
+from twilio.twiml.messaging_response import MessagingResponse
 
 from .clients.twilio import send_text
 from .models import Recipient
@@ -86,6 +88,48 @@ class VerificationViewSet(viewsets.ViewSet):
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         recipient.verified = True
+        recipient.subscribed = True
         recipient.save()
 
+        # Send a confirmation text
+        message = "You're subscribed to Weather Warner! Text your number if you wish to unsubscribe"
+        send_text(phone_number=recipient.phone_number.as_e164, message=message)
+
         return Response(status=status.HTTP_200_OK)
+
+
+class SubscriptionViewSet(viewsets.ViewSet):
+    throttle_classes = [AnonRateThrottle]
+
+    @action(detail=False, methods=["post"])
+    def unsubscribe(self, request):
+        """
+        Unsubscribe a recipient. This is a webhook triggered by Twilio.
+        """
+
+        log.info(request.data)
+
+        try:
+            raw_number = self.request.data.get("Body")
+            phone_number = phonenumbers.parse(raw_number, "AU")
+        except Exception as exception:
+            # Could not pass received number from twilio
+            log.exception(exception)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            recipient = Recipient.objects.get(phone_number=phone_number)
+        except Recipient.DoesNotExist:
+            log.exception("Recipient does not exist")
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        recipient.unsubscribed = True
+        recipient.save()
+
+        # Start our response
+        response = MessagingResponse()
+
+        # Add a message
+        response.message("Unsubscribed! Sorry to see you go")
+
+        return HttpResponse(response.to_xml(), content_type="text/xml")

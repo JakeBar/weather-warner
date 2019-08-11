@@ -16,8 +16,8 @@ class PostalCodeFactory(factory.DjangoModelFactory):
 class RecipientFactory(factory.DjangoModelFactory):
     name = "Charles Darrow"
     postal_code: models.PostalCode = factory.SubFactory(PostalCodeFactory)
-    phone_number = example_number_for_type(region_code="NZ", num_type=PhoneNumberType.MOBILE)
+    phone_number = example_number_for_type(region_code="AU", num_type=PhoneNumberType.MOBILE)
 
     class Meta:
         model = models.Recipient
-        django_get_or_create = ("name", "postal_code")
+        django_get_or_create = ("name", "postal_code", "phone_number")

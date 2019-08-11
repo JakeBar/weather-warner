@@ -9,9 +9,8 @@ const VerificationForm = (props: VerificationFormProps) => {
   const [visibility, setVisiblity] = useState(false)
 
   const verifyDetails = () => {
-    const { phoneNumber } = props
     // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
-    props.submitValidation(phoneNumber, formValues)
+    props.submitValidation(formValues)
   }
 
   const { formValues, handleFormValues, handleSubmit } = useVerificationForm(verifyDetails)

@@ -15,7 +15,9 @@ const useVerificationForm = (callback: Function) => {
     callback()
   }
 
-  const handleFormValues = (event: { target: HTMLInputElement }) => {
+  // @ts-ignore
+  const handleFormValues = event => {
+    event.persist()
     setFormValues(values => ({ ...values, [event.target.name]: event.target.value }))
   }
 

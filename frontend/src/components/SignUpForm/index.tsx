@@ -59,7 +59,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             <label style={{ color: 'white' }}>Postcode</label>
             <Form.Input
               {...postalCodeErrors}
-              placeholder='"e.g. 3000'
+              placeholder="e.g. 3000"
               name="postal_code"
               type="text"
               required

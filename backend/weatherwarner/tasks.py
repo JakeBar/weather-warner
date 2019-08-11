@@ -22,7 +22,7 @@ def send_weather_report():
         data_points = evaluate_data(hourly_forecast)
 
         # For each recipient in that postal code
-        for recipient in postal_code.recipients.all():
+        for recipient in postal_code.recipients.filter(subscribed=True):
             # Generate a message and send it
             message = generate_best_message(recipient, data_points)
             if send_text(phone_number=recipient.phone_number.as_e164, message=message):

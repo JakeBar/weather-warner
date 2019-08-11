@@ -20,6 +20,7 @@ parts/
 sdist/
 node_modules
 .awcache/
+webpack-stats.json
 var/
 wheels/
 *.egg-info/
@@ -49,7 +50,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 junit.xml
-webpack-stats.json
 
 # Translations
 *.mo

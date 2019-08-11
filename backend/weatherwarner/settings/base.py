@@ -148,6 +148,10 @@ TWILIO_FROM_NUMBER = os.environ.get("TWILIO_FROM_NUMBER", "+15005550006")
 TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "AC325849c15a3c802e573dd7a4c180ee12")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "3d877d09815da6607d023182fe252d4e")
 
+# WeatherBit API
+# https://www.weatherbit.io/api
+WEATHER_BIT_API_KEY = os.environ.get("WEATHER_BIT_API_KEY", "")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

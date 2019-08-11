@@ -9,7 +9,6 @@ from weatherwarner.models import Recipient
 class RequestVerificationTestCase(TestCase):
     def setUp(self):
         self.postal_code = PostalCodeFactory()
-        # TODO why is this so difficult?
         self.recipient_data = {
             "name": "Jack",
             "postal_code": str(self.postal_code.code),
@@ -33,6 +32,7 @@ class RequestVerificationTestCase(TestCase):
         self.assertEqual(recipient.customer_friendly_number, self.recipient_data["phone_number"])
 
         self.assertFalse(recipient.verified)
+        self.assertFalse(recipient.subscribed)
         mock_text.assert_called_once()
 
     @patch("weatherwarner.api.send_text")
@@ -134,12 +134,15 @@ class ValidateVerificationTestCase(TestCase):
         )
         self.recipient_data = {"verification_code": self.recipient.verification_code}
 
-    def test_validation_success(self):
+    @patch("weatherwarner.api.send_text")
+    def test_validation_success(self, mock_text):
+        mock_text.return_value = True
         session = self.client.session
         session["phone_number"] = self.recipient.phone_number.as_e164
         session.save()
 
         self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
         response = self.client.post("/api/verification/validate/", data=self.recipient_data)
 
@@ -147,6 +150,8 @@ class ValidateVerificationTestCase(TestCase):
 
         self.recipient.refresh_from_db()
         self.assertTrue(self.recipient.verified)
+        self.assertTrue(self.recipient.subscribed)
+        mock_text.assert_called_once()
 
     def test_validation_invalid_code(self):
         self.recipient_data["verification_code"] = "222222"
@@ -155,6 +160,7 @@ class ValidateVerificationTestCase(TestCase):
         session.save()
 
         self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
         response = self.client.post("/api/verification/validate/", data=self.recipient_data)
 
@@ -165,6 +171,7 @@ class ValidateVerificationTestCase(TestCase):
 
         self.recipient.refresh_from_db()
         self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
     def test_validation_invalid_code_malformed(self):
         self.recipient_data["verification_code"] = "123ZZZ"
@@ -173,6 +180,7 @@ class ValidateVerificationTestCase(TestCase):
         session.save()
 
         self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
         response = self.client.post("/api/verification/validate/", data=self.recipient_data)
 
@@ -183,6 +191,7 @@ class ValidateVerificationTestCase(TestCase):
 
         self.recipient.refresh_from_db()
         self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
     def test_validation_invalid_code_too_long(self):
         self.recipient_data["verification_code"] = "123ZZZZ"
@@ -192,6 +201,7 @@ class ValidateVerificationTestCase(TestCase):
         session.save()
 
         self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
         response = self.client.post("/api/verification/validate/", data=self.recipient_data)
 
@@ -202,14 +212,14 @@ class ValidateVerificationTestCase(TestCase):
         )
 
         self.recipient.refresh_from_db()
-        self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
     def test_validation_phone_number_does_not_exist(self):
         session = self.client.session
         session["phone_number"] = "+61421000000"
         session.save()
 
-        self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
 
         response = self.client.post("/api/verification/validate/", data=self.recipient_data)
 
@@ -219,4 +229,29 @@ class ValidateVerificationTestCase(TestCase):
         )
 
         self.recipient.refresh_from_db()
-        self.assertFalse(self.recipient.verified)
+        self.assertFalse(self.recipient.subscribed)
+
+
+class UnsubscribeTestCase(TestCase):
+    def setUp(self):
+        self.maxDiff = None
+        self.recipient = RecipientFactory(
+            verification_code="123456", phone_number=phonenumbers.parse("+61421955955", "AU")
+        )
+
+    def test_unsubscribe_success(self):
+        mock_values = {"Body": "+61421955955"}
+
+        response = self.client.post("/api/subscription/unsubscribe/", data=mock_values)
+
+        self.assertEqual(
+            response.content,
+            b'<?xml version="1.0" encoding="UTF-8"?><Response><Message>Unsubscribed! Sorry to see you go</Message></Response>',  # noqa
+        )
+
+    def test_unsubscribe_does_not_exist(self):
+        mock_values = {"Body": "+61421950000"}
+
+        response = self.client.post("/api/subscription/unsubscribe/", data=mock_values)
+
+        self.assertEqual(response.status_code, 404)
