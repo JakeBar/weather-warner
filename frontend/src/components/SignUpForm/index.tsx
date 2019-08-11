@@ -45,7 +45,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             <label style={{ color: 'white' }}>Phone number</label>
             <Form.Input
               {...phoneNumberErrors}
-              placeholder="+614 21 222 333"
+              placeholder="0421 222 333"
               name="phone_number"
               type="tel"
               required
@@ -59,7 +59,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             <label style={{ color: 'white' }}>Postcode</label>
             <Form.Input
               {...postalCodeErrors}
-              placeholder="e.g. 3000"
+              placeholder="3000"
               name="postal_code"
               type="text"
               required
