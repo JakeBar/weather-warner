@@ -16,8 +16,8 @@ const VerificationForm = (props: VerificationFormProps) => {
   const { formValues, handleFormValues, handleSubmit } = useVerificationForm(verifyDetails)
 
   const { formErrors } = props
-  const verificationCodeErrors = formErrors.verification_code
-    ? { error: formErrors.verification_code }
+  const verificationCodeErrors = formErrors.verificationCode
+    ? { error: formErrors.verificationCode }
     : {}
 
   useEffect(() => {

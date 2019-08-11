@@ -1,9 +1,9 @@
 export interface ErrorValues {
   general: string
   name: string
-  phone_number: string
-  postal_code: string
-  verification_code: string
+  phoneNumber: string
+  postalCode: string
+  verificationCode: string
 }
 
 export interface ApplicationState {

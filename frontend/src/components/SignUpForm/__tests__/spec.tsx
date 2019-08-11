@@ -6,9 +6,9 @@ const mockProps = {
   formErrors: {
     general: '',
     name: '',
-    phone_number: '',
-    postal_code: '',
-    verification_code: '',
+    phoneNumber: '',
+    postalCode: '',
+    verificationCode: '',
   },
   submitDetails: (f: Function) => f,
 }

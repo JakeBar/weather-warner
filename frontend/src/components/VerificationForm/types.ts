@@ -1,6 +1,6 @@
 export interface ErrorValues {
   general: string
-  verification_code: string
+  verificationCode: string
 }
 
 export interface VerificationFormProps {

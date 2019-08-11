@@ -5,7 +5,7 @@ import VerificationForm from '../index'
 const mockProps = {
   formErrors: {
     general: '',
-    verification_code: '',
+    verificationCode: '',
   },
   phoneNumber: '0421999444',
   submitValidation: (f: Function) => f,

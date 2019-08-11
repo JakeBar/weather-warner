@@ -12,6 +12,9 @@ import { FormValues as VerificationFormValues } from '../VerificationForm/types'
 import VerificationForm from '../VerificationForm'
 import SignUpSuccess from '../SignUpSuccess'
 
+// eslint-disable-next-line
+const camelize = require('camelize')
+
 const FormContainer = () => {
   const defaultProps = {
     submitted: false,
@@ -19,18 +22,29 @@ const FormContainer = () => {
     formErrors: {
       general: '',
       name: '',
-      phone_number: '',
-      postal_code: '',
-      verification_code: '',
+      phoneNumber: '',
+      postalCode: '',
+      verificationCode: '',
     },
   }
   const [state, setState] = useState<ApplicationState>(defaultProps)
 
   const requestVerification = (data: SignUpFormValues) => {
+    const payload = {
+      ...data,
+      postal_code: data.postalCode,
+      phone_number: data.phoneNumber,
+    }
     axios
-      .post('/api/verification/request/', data)
+      .post('/api/verification/request/', payload)
       .then(() => {
-        setState({ ...state, submitted: true })
+        setState({
+          ...state,
+          submitted: true,
+          formErrors: {
+            ...defaultProps.formErrors,
+          },
+        })
       })
       .catch(error => {
         if (error && error.response && error.response.status === 429) {
@@ -38,17 +52,18 @@ const FormContainer = () => {
           setState({
             ...state,
             formErrors: {
-              ...state.formErrors,
+              ...defaultProps.formErrors,
               general: msg,
             },
           })
         } else if (error && error.response) {
           const msg = 'Please ensure all fields are correct.'
+          const formattedErrors = camelize(error.response.data)
           setState({
             ...state,
             formErrors: {
-              ...state.formErrors,
-              ...error.response.data,
+              ...defaultProps.formErrors,
+              ...formattedErrors,
               general: msg,
             },
           })
@@ -71,17 +86,18 @@ const FormContainer = () => {
           setState({
             ...state,
             formErrors: {
-              ...state.formErrors,
+              ...defaultProps.formErrors,
               general: msg,
             },
           })
         } else if (error && error.response) {
           const msg = 'Please ensure the verification code is correct.'
+          const formattedErrors = camelize(error.response.data)
           setState({
             ...state,
             formErrors: {
-              ...state.formErrors,
-              ...error.response.data,
+              ...defaultProps.formErrors,
+              ...formattedErrors,
               general: msg,
             },
           })
@@ -97,7 +113,6 @@ const FormContainer = () => {
   } else if (state.verified) {
     currentForm = <SignUpSuccess />
   }
-  // currentForm = <SignUpSuccess />
 
   return (
     <Fragment>
