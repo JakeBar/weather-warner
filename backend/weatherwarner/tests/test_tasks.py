@@ -135,5 +135,5 @@ class TaskRunnerTestCase(TestCase):
         mock_twilio.create.return_value = "Hi there, the weather will be great today!"
         send_weather_report()
 
-        self.assertEqual(len(connection.queries), 9)
+        self.assertEqual(len(connection.queries), 10)
         settings.DEBUG = False
