@@ -1,9 +1,8 @@
 from collections import Counter
 
-from .models import Recipient
+from django.conf import settings
 
-PERCENTAGE_OF_PRECIPITATION_THRESHOLD = 25
-WIND_SPEED_THRESHOLD = 12
+from .models import Recipient
 
 
 def get_most_frequent_value(values: list) -> str:
@@ -52,13 +51,13 @@ def generate_best_message(recipient: Recipient, data_points: dict) -> str:
     )
 
     # Forecast for windy day
-    if data_points["average_wind_speed"] > WIND_SPEED_THRESHOLD:
+    if data_points["average_wind_speed"] > settings.WIND_SPEED_THRESHOLD:
         message = (
             f"Morning {recipient.name}, " f"hold on tight, because today is going to be windy!"
         )
 
     # Forecast for rain
-    if data_points["average_pop"] > PERCENTAGE_OF_PRECIPITATION_THRESHOLD:
+    if data_points["average_pop"] > settings.PERCENTAGE_OF_PRECIPITATION_THRESHOLD:
         message = f"Morning {recipient.name}, " f"make sure to bring a rain coat today!"
 
     return message
