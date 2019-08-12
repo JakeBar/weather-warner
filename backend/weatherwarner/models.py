@@ -34,9 +34,10 @@ class Recipient(models.Model):
         return f"[{self.phone_number}] {self.name} {self.postal_code}"
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if not self.verification_code and self.pk:
             self.verification_code = get_random_string(length=6, allowed_chars="0123456789ABCDEF")
-        super().save(*args, **kwargs)
+            self.save()
 
     @property
     def customer_friendly_number(self):
