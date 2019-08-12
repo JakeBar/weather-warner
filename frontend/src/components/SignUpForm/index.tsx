@@ -15,7 +15,7 @@ const SignUpForm = (props: SignUpFormProps) => {
 
   const { formValues, handleFormValues, handleSubmit } = useSignUpForm(verifyDetails)
 
-  const { formErrors } = props
+  const { formErrors, loading } = props
   const nameErrors = formErrors.name ? { error: formErrors.name } : {}
   const phoneNumberErrors = formErrors.phoneNumber ? { error: formErrors.phoneNumber } : {}
   const postalCodeErrors = formErrors.postalCode ? { error: formErrors.postalCode } : {}
@@ -77,6 +77,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             fluid
             size="large"
             type="submit"
+            loading={loading}
           >
             Verify Number
           </Form.Button>

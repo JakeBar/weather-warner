@@ -4,11 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleTracker = require('webpack4-bundle-tracker')
 const { CheckerPlugin } = require('awesome-typescript-loader')
 
-const context = path.resolve(__dirname, 'src')
 module.exports = {
   mode: 'production',
-  context,
-  entry: './index.tsx',
+  entry: [
+    './src/index.tsx',
+  ],
   devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(),
@@ -30,7 +30,6 @@ module.exports = {
     ],
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    extensions: [ '.tsx', '.ts', '.jsx', '.js','.html' ],
   },
 }

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, Fragment } from 'react'
-import { Container, Grid } from 'semantic-ui-react'
+import { Container as SemanticContainer, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import Footer from '../Footer'
 import Header from '../Header'
@@ -15,10 +15,11 @@ import SignUpSuccess from '../SignUpSuccess'
 // eslint-disable-next-line
 const camelize = require('camelize')
 
-const FormContainer = () => {
+const Container = () => {
   const defaultProps = {
     submitted: false,
     verified: false,
+    loading: false,
     formErrors: {
       general: '',
       name: '',
@@ -35,6 +36,12 @@ const FormContainer = () => {
       postal_code: data.postalCode,
       phone_number: data.phoneNumber,
     }
+
+    setState({
+      ...state,
+      loading: true,
+    })
+
     axios
       .post('/api/verification/request/', payload)
       .then(() => {
@@ -51,6 +58,7 @@ const FormContainer = () => {
           const msg = 'Woah, slow down there! Try again later.'
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               general: msg,
@@ -61,6 +69,7 @@ const FormContainer = () => {
           const formattedErrors = camelize(error.response.data)
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               ...formattedErrors,
@@ -75,6 +84,10 @@ const FormContainer = () => {
     const payload = {
       verification_code: data.verificationCode,
     }
+    setState({
+      ...state,
+      loading: true,
+    })
     axios
       .post('/api/verification/validate/', payload)
       .then(() => {
@@ -85,6 +98,7 @@ const FormContainer = () => {
           const msg = 'Woah, slow down there! Try again later.'
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               general: msg,
@@ -95,6 +109,7 @@ const FormContainer = () => {
           const formattedErrors = camelize(error.response.data)
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               ...formattedErrors,
@@ -107,16 +122,28 @@ const FormContainer = () => {
 
   let currentForm
   if (!state.submitted) {
-    currentForm = <SignUpForm formErrors={state.formErrors} submitDetails={requestVerification} />
+    currentForm = (
+      <SignUpForm
+        formErrors={state.formErrors}
+        submitDetails={requestVerification}
+        loading={state.loading}
+      />
+    )
   } else if (!state.verified) {
-    currentForm = <VerificationForm submitValidation={validateCode} formErrors={state.formErrors} />
+    currentForm = (
+      <VerificationForm
+        submitValidation={validateCode}
+        formErrors={state.formErrors}
+        loading={state.loading}
+      />
+    )
   } else if (state.verified) {
     currentForm = <SignUpSuccess />
   }
 
   return (
     <Fragment>
-      <Container>
+      <SemanticContainer>
         <Grid textAlign="center" style={{ height: '95vh' }} verticalAlign="middle">
           <Grid.Column textAlign="left" style={{ maxWidth: 400 }}>
             <Header />
@@ -124,9 +151,9 @@ const FormContainer = () => {
           </Grid.Column>
         </Grid>
         <Footer />
-      </Container>
+      </SemanticContainer>
     </Fragment>
   )
 }
 
-export default FormContainer
+export default Container

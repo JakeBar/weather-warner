@@ -6,6 +6,7 @@ export interface ErrorValues {
 export interface VerificationFormProps {
   submitValidation: Function
   formErrors: ErrorValues
+  loading: boolean
 }
 
 export interface FormValues {

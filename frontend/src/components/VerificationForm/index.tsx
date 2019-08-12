@@ -15,7 +15,7 @@ const VerificationForm = (props: VerificationFormProps) => {
 
   const { formValues, handleFormValues, handleSubmit } = useVerificationForm(verifyDetails)
 
-  const { formErrors } = props
+  const { formErrors, loading } = props
   const verificationCodeErrors = formErrors.verificationCode
     ? { error: formErrors.verificationCode }
     : {}
@@ -47,6 +47,7 @@ const VerificationForm = (props: VerificationFormProps) => {
             fluid
             size="large"
             type="submit"
+            loading={loading}
           >
             Verify Code
           </Form.Button>

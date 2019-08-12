@@ -9,5 +9,6 @@ export interface ErrorValues {
 export interface ApplicationState {
   submitted: boolean
   verified: boolean
+  loading: boolean
   formErrors: ErrorValues
 }
