@@ -8,6 +8,7 @@ export interface ErrorValues {
 export interface SignUpFormProps {
   submitDetails: Function
   formErrors: ErrorValues
+  loading: boolean
 }
 
 export interface FormValues {

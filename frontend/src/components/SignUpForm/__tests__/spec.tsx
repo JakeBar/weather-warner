@@ -3,6 +3,7 @@ import { shallow } from 'enzyme'
 import SignUpForm from '../index'
 
 const mockProps = {
+  loading: true,
   formErrors: {
     general: '',
     name: '',

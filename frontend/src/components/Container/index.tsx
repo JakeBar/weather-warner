@@ -19,6 +19,7 @@ const Container = () => {
   const defaultProps = {
     submitted: false,
     verified: false,
+    loading: false,
     formErrors: {
       general: '',
       name: '',
@@ -35,6 +36,12 @@ const Container = () => {
       postal_code: data.postalCode,
       phone_number: data.phoneNumber,
     }
+
+    setState({
+      ...state,
+      loading: true,
+    })
+
     axios
       .post('/api/verification/request/', payload)
       .then(() => {
@@ -51,6 +58,7 @@ const Container = () => {
           const msg = 'Woah, slow down there! Try again later.'
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               general: msg,
@@ -61,6 +69,7 @@ const Container = () => {
           const formattedErrors = camelize(error.response.data)
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               ...formattedErrors,
@@ -75,6 +84,10 @@ const Container = () => {
     const payload = {
       verification_code: data.verificationCode,
     }
+    setState({
+      ...state,
+      loading: true,
+    })
     axios
       .post('/api/verification/validate/', payload)
       .then(() => {
@@ -85,6 +98,7 @@ const Container = () => {
           const msg = 'Woah, slow down there! Try again later.'
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               general: msg,
@@ -95,6 +109,7 @@ const Container = () => {
           const formattedErrors = camelize(error.response.data)
           setState({
             ...state,
+            loading: false,
             formErrors: {
               ...defaultProps.formErrors,
               ...formattedErrors,
@@ -107,9 +122,21 @@ const Container = () => {
 
   let currentForm
   if (!state.submitted) {
-    currentForm = <SignUpForm formErrors={state.formErrors} submitDetails={requestVerification} />
+    currentForm = (
+      <SignUpForm
+        formErrors={state.formErrors}
+        submitDetails={requestVerification}
+        loading={state.loading}
+      />
+    )
   } else if (!state.verified) {
-    currentForm = <VerificationForm submitValidation={validateCode} formErrors={state.formErrors} />
+    currentForm = (
+      <VerificationForm
+        submitValidation={validateCode}
+        formErrors={state.formErrors}
+        loading={state.loading}
+      />
+    )
   } else if (state.verified) {
     currentForm = <SignUpSuccess />
   }
