@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, Fragment } from 'react'
-import { Container, Grid } from 'semantic-ui-react'
+import { Container as SemanticContainer, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import Footer from '../Footer'
 import Header from '../Header'
@@ -15,7 +15,7 @@ import SignUpSuccess from '../SignUpSuccess'
 // eslint-disable-next-line
 const camelize = require('camelize')
 
-const FormContainer = () => {
+const Container = () => {
   const defaultProps = {
     submitted: false,
     verified: false,
@@ -116,7 +116,7 @@ const FormContainer = () => {
 
   return (
     <Fragment>
-      <Container>
+      <SemanticContainer>
         <Grid textAlign="center" style={{ height: '95vh' }} verticalAlign="middle">
           <Grid.Column textAlign="left" style={{ maxWidth: 400 }}>
             <Header />
@@ -124,9 +124,9 @@ const FormContainer = () => {
           </Grid.Column>
         </Grid>
         <Footer />
-      </Container>
+      </SemanticContainer>
     </Fragment>
   )
 }
 
-export default FormContainer
+export default Container

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import axios from 'axios'
-import FormContainer from './components/FormContainer'
+import Container from './components/Container'
 
 // Default Config
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
@@ -11,7 +11,7 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 // Initial Load
 ReactDOM.render(
   <AppContainer>
-    <FormContainer />
+    <Container />
   </AppContainer>,
   document.getElementById('root')
 )
@@ -21,7 +21,7 @@ ReactDOM.render(
 if (module.hot) {
   ReactDOM.render(
     <AppContainer>
-      <FormContainer />
+      <Container />
     </AppContainer>,
     document.getElementById('root')
   )
