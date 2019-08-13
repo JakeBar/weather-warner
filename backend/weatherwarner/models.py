@@ -23,7 +23,7 @@ class Recipient(models.Model):
     Recipient - A user of Weather Warner
     """
 
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=24)
     postal_code = models.ForeignKey(PostalCode, related_name="recipients", on_delete=models.CASCADE)
     phone_number = PhoneNumberField(unique=True, help_text="The phone number to receive the texts")
     verification_code = models.CharField(max_length=6, blank=True, null=True)
