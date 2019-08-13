@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react'
-import { Segment, Form, Transition, Message } from 'semantic-ui-react'
+import { Segment, Form, Transition, Message, Divider } from 'semantic-ui-react'
 import useVerificationForm from './hooks'
 import { VerificationFormProps } from './types'
 
@@ -28,6 +28,11 @@ const VerificationForm = (props: VerificationFormProps) => {
     <Transition visible={visibility} duration={800}>
       <Form error={formErrors.general.length > 0} size="large" onSubmit={handleSubmit}>
         <Segment style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}>
+          <div>
+            We&apos;ve just sent a text to your phone containing a 6 digit verification code. Please
+            enter it below.
+          </div>
+          <Divider hidden />
           <Form.Field>
             <label style={{ color: 'white' }}>Verification Code</label>
             <Form.Input
@@ -49,7 +54,7 @@ const VerificationForm = (props: VerificationFormProps) => {
             type="submit"
             loading={loading}
           >
-            Verify Code
+            Submit Code
           </Form.Button>
         </Segment>
       </Form>
