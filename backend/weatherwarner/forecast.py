@@ -1,6 +1,7 @@
 import functools
 from collections import Counter
 
+import attr
 from django.conf import settings
 
 from .models import Recipient
@@ -19,6 +20,22 @@ KEYPOINTS = {
     "clouds",
     "weather",
 }
+
+
+@attr.s(slots=True)
+class Forecast(object):
+    timestamp_local: str = attr.ib()
+    wind_gust_spd: float = attr.ib()
+    wind_spd: float = attr.ib()
+    wind_cdir_full: str = attr.ib()
+    temp: float = attr.ib()
+    app_temp: float = attr.ib()
+    pop: int = attr.ib()
+    precip: int = attr.ib()
+    snow: int = attr.ib()
+    rh: float = attr.ib()
+    clouds: int = attr.ib()
+    weather = attr.ib()
 
 
 def get_most_frequent_value(values: list) -> str:
