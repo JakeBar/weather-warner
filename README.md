@@ -1,13 +1,13 @@
 # weather-warner
-Simple Weather Notifications via Text (SMS) - [weatherwarner.herokuapp.com](weatherwarner.herokuapp.com)
+Simple Weather Notifications via Text (SMS) - [weatherwarner.herokuapp.com](https://weatherwarner.herokuapp.com)
 
 [![CircleCI](https://circleci.com/gh/JakeBar/weather-warner.svg?style=svg&circle-token=44b5a718bad263f1082e56881233f23ec3cc3165)](https://circleci.com/gh/JakeBar/weather-warner)
 
 ## Features
 
 * Weather Warner sends a short weather update via SMS. Updates are sent each morning based on the current day's forecast data.
-* Recipients can subscribe to texts at [weatherwarner.herokuapp.com](weatherwarner.herokuapp.com) after verifying their number.
-* Current recipients can be managed via the [admin page](weatherwarner.herokuapp.com/admin).
+* Recipients can subscribe to texts at [weatherwarner.herokuapp.com](https://weatherwarner.herokuapp.com) after verifying their number.
+* Current recipients can be managed via the [admin page](https://weatherwarner.herokuapp.com/admin).
 
 ## Requirements
 
