@@ -55,8 +55,8 @@ def evaluate_data(forecasts: list) -> dict:
     results = {"general": {}, "rain": {}, "clouds": {}, "wind": {}}
 
     filtered = [{k: v for k, v in forecast.items() if k in KEYPOINTS} for forecast in forecasts]
-
     forecasts = [Forecast(**data) for data in filtered]
+
     # Highest & Lowest Temperature
     results["general"]["min_temp"] = sorted(forecasts, key=lambda x: x.temp)[0].temp
     results["general"]["max_temp"] = sorted(forecasts, key=lambda x: x.temp)[-1].temp
@@ -121,13 +121,6 @@ def generate_best_message(recipient: Recipient, data_points: dict) -> str:
             f"make sure to bring an umbrella today ☂️ Up to {precipitation}mm rain at {time}. "
         )
 
-    # Forecast for windy day
-    elif data_points["wind"]["average_wind_speed"] > settings.WIND_SPEED_THRESHOLD:
-        gust_speed = data_points["wind"]["max_gust_speed"]
-        message += (
-            f"hold on tight because today is going to be windy! Gusts of up to {gust_speed}km/hr. "
-        )
-
     # Forecast for hot day
     elif data_points["general"]["max_temp"] > settings.MAX_TEMP_THRESHOLD:
         message += f"hope you live a in fridge, because today is bloody hot."
@@ -135,6 +128,13 @@ def generate_best_message(recipient: Recipient, data_points: dict) -> str:
     # Forecast for cold day
     elif data_points["general"]["min_temp"] < settings.MIN_TEMP_THRESHOLD:
         message += f"brr did someone leave the fridge open? 🥶"
+
+    # Forecast for windy day
+    elif data_points["wind"]["average_wind_speed"] > settings.WIND_SPEED_THRESHOLD:
+        gust_speed = data_points["wind"]["max_gust_speed"]
+        message += (
+            f"hold on tight because today is going to be windy! Gusts of up to {gust_speed}km/hr. "
+        )
 
     # Default
     else:

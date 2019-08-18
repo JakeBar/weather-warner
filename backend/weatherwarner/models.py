@@ -50,3 +50,7 @@ class MessageChunk(models.Model):
     """
 
     message = models.CharField(max_length=64)
+
+    @property
+    def __str__(self):
+        return f"{self.message}"
