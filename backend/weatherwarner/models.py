@@ -60,6 +60,5 @@ class MessageChunk(models.Model):
     message = models.CharField(max_length=64)
     forecast_type = models.CharField(max_length=8, choices=ForecastChoices, default="DEFAULT")
 
-    @property
     def __str__(self):
         return f"({self.forecast_type}) {self.message}"
