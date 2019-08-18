@@ -1,7 +1,10 @@
+import datetime
+
 from django.test import TestCase
+from mock import patch
 
 from weatherwarner.factories import RecipientFactory
-from weatherwarner.forecast import evaluate_data, generate_best_message
+from weatherwarner.forecast import DEFAULT_FALL_MESSAGES, evaluate_data, generate_best_message
 
 SAMPLE_WEATHERBIT_DATA = [
     {
@@ -83,11 +86,25 @@ class ForecastTestCase(TestCase):
         self.maxDiff = None
         data_points = evaluate_data(SAMPLE_WEATHERBIT_DATA)
         expected_data = {
-            "max_temp": 8.5,
-            "min_temp": 8.2,
-            "most_frequent_description": "Overcast clouds",
-            "average_pop": 0.0,
-            "average_wind_speed": 2.70305,
+            "clouds": {
+                "average_cloud_coverage": 77.0,
+                "max_cloud_coverage": 82,
+                "min_cloud_coverage": 72,
+            },
+            "general": {
+                "max_temp": 8.5,
+                "max_temp_peak_time": datetime.datetime(2019, 7, 30, 21, 0),
+                "min_temp": 8.2,
+                "most_frequent_description": "Overcast clouds",
+            },
+            "rain": {
+                "average_pop": 0.0,
+                "max_pop_peak": 0,
+                "max_pop_peak_time": datetime.datetime(2019, 7, 30, 22, 0),
+                "precip_peak": 0,
+                "precip_peak_time": datetime.datetime(2019, 7, 30, 22, 0),
+            },
+            "wind": {"average_wind_speed": 2.7, "max_gust_speed": 3.0},
         }
         self.assertEquals(data_points, expected_data)
 
@@ -97,11 +114,15 @@ class MessageGeneratorTestCase(TestCase):
         self.recipient = RecipientFactory()
         self.data_points = evaluate_data(SAMPLE_WEATHERBIT_DATA)
 
+    def mock_random(self):
+        return DEFAULT_FALL_MESSAGES[0]
+
+    @patch("random.choice", mock_random)
     def test_generate_message(self):
         """
         Assert a message is generated correctly
         """
         self.maxDiff = None
         message = generate_best_message(recipient=self.recipient, data_points=self.data_points)
-        expected_message = "Morning Charles Darrow, expect of high of 8.5 and a low of 8.2 today."
+        expected_message = "Morning Charles Darrow, today is looking a-okay 👌 Expect of high of 8.5°C and a low of 8.2°C."  # noqa
         self.assertEquals(message, expected_message)

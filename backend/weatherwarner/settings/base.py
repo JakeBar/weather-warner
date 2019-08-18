@@ -150,7 +150,7 @@ TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "3d877d09815da6607d02318
 
 # WeatherBit API
 # https://www.weatherbit.io/api
-WEATHER_BIT_API_KEY = os.environ.get("WEATHER_BIT_API_KEY")
+WEATHER_BIT_API_KEY = os.environ.get("WEATHER_BIT_API_KEY", "")
 
 LOGGING = {
     "version": 1,

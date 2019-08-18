@@ -63,7 +63,6 @@ def evaluate_data(forecasts: list) -> dict:
 
     # Temperature peak
     max_temp_peak = sorted(forecasts, key=lambda x: x.temp)[-1]
-    results["general"]["max_temp_peak"] = max_temp_peak.temp
     results["general"]["max_temp_peak_time"] = datetime.strptime(
         max_temp_peak.timestamp_local, "%Y-%m-%dT%H:%M:%S"
     )
