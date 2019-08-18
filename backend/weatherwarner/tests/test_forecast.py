@@ -4,7 +4,7 @@ from django.test import TestCase
 from mock import patch
 
 from weatherwarner.factories import RecipientFactory
-from weatherwarner.forecast import DEFAULT_FALL_MESSAGES, evaluate_data, generate_best_message
+from weatherwarner.forecast import DEFAULT_MESSAGE_CHUNKS, evaluate_data, generate_best_message
 
 SAMPLE_WEATHERBIT_DATA = [
     {
@@ -115,7 +115,7 @@ class MessageGeneratorTestCase(TestCase):
         self.data_points = evaluate_data(SAMPLE_WEATHERBIT_DATA)
 
     def mock_random(self):
-        return DEFAULT_FALL_MESSAGES[0]
+        return DEFAULT_MESSAGE_CHUNKS[0]
 
     @patch("random.choice", mock_random)
     def test_generate_message(self):

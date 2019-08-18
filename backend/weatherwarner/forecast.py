@@ -22,7 +22,11 @@ KEYPOINTS = {
     "weather",
 }
 
-DEFAULT_FALL_MESSAGES = ["today is looking a-okay 👌 ", "kick back and relax. "]
+DEFAULT_MESSAGE_CHUNKS = ["today is looking a-okay 👌 ", "kick back and relax. "]
+RAIN_MESSAGE_CHUNKS = ["make sure to bring an umbrella today ☂️  "]
+HOT_MESSAGE_CHUNKS = ["hope you live a in fridge, because today is bloody hot. "]
+COLD_MESSAGE_CHUNKS = ["brr did someone leave the fridge open? 🥶  "]
+WIND_MESSAGE_CHUNKS = ["hold on tight because today is going to be windy! "]
 
 
 @attr.s(slots=True)
@@ -114,31 +118,42 @@ def generate_best_message(recipient: Recipient, data_points: dict) -> str:
 
     # Forecast for rain
     if data_points["rain"]["average_pop"] > settings.PERCENTAGE_OF_PRECIPITATION_THRESHOLD:
+        choices = RAIN_MESSAGE_CHUNKS + list(
+            MessageChunk.objects.filter(forecast_type="RAIN").values_list("message", flat=True)
+        )
+        message += random.choice(choices)
+
         precipitation = data_points["rain"]["precip_peak"]
         time = data_points["rain"]["precip_peak_time"].strftime("%-I%p")
-        message += (
-            f"make sure to bring an umbrella today ☂️ Up to {precipitation}mm rain at {time}. "
-        )
+        message += f"Up to {precipitation}mm rain at {time}. "
 
     # Forecast for hot day
     elif data_points["general"]["max_temp"] > settings.MAX_TEMP_THRESHOLD:
-        message += f"hope you live a in fridge, because today is bloody hot."
+        choices = RAIN_MESSAGE_CHUNKS + list(
+            MessageChunk.objects.filter(forecast_type="HOT").values_list("message", flat=True)
+        )
+        message += random.choice(choices)
 
     # Forecast for cold day
     elif data_points["general"]["min_temp"] < settings.MIN_TEMP_THRESHOLD:
-        message += f"brr did someone leave the fridge open? 🥶"
+        choices = COLD_MESSAGE_CHUNKS + list(
+            MessageChunk.objects.filter(forecast_type="COLD").values_list("message", flat=True)
+        )
+        message += random.choice(choices)
 
     # Forecast for windy day
     elif data_points["wind"]["average_wind_speed"] > settings.WIND_SPEED_THRESHOLD:
-        gust_speed = data_points["wind"]["max_gust_speed"]
-        message += (
-            f"hold on tight because today is going to be windy! Gusts of up to {gust_speed}km/hr. "
+        choices = WIND_MESSAGE_CHUNKS + list(
+            MessageChunk.objects.filter(forecast_type="WIND").values_list("message", flat=True)
         )
+        message += random.choice(choices)
+        gust_speed = data_points["wind"]["max_gust_speed"]
+        message += f"Gusts of up to {gust_speed}km/hr. "
 
     # Default
     else:
-        default_choices = DEFAULT_FALL_MESSAGES + list(
-            MessageChunk.objects.all().values_list("message", flat=True)
+        default_choices = DEFAULT_MESSAGE_CHUNKS + list(
+            MessageChunk.objects.filter(forecast_type="DEFAULT").values_list("message", flat=True)
         )
         message += random.choice(default_choices)
 
