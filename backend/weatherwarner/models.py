@@ -3,6 +3,14 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from phonenumber_field.modelfields import PhoneNumberField
 
+ForecastChoices = [
+    ("DEFAULT", "Default"),
+    ("RAIN", "Rain"),
+    ("WIND", "Wind"),
+    ("HOT", "Hot"),
+    ("COLD", "Cold"),
+]
+
 
 class PostalCode(models.Model):
     """
@@ -42,3 +50,16 @@ class Recipient(models.Model):
     @property
     def customer_friendly_number(self):
         return self.phone_number.as_e164
+
+
+class MessageChunk(models.Model):
+    """
+    Message Chunks for use in SMSes.
+    """
+
+    message = models.CharField(max_length=64)
+    forecast_type = models.CharField(max_length=8, choices=ForecastChoices, default="DEFAULT")
+
+    @property
+    def __str__(self):
+        return f"({self.forecast_type}) {self.message}"
