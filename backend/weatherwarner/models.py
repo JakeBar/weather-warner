@@ -42,3 +42,11 @@ class Recipient(models.Model):
     @property
     def customer_friendly_number(self):
         return self.phone_number.as_e164
+
+
+class MessageChunk(models.Model):
+    """
+    Message Chunks for use in SMSes.
+    """
+
+    message = models.CharField(max_length=64)
