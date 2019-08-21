@@ -124,5 +124,5 @@ class MessageGeneratorTestCase(TestCase):
         """
         self.maxDiff = None
         message = generate_best_message(recipient=self.recipient, data_points=self.data_points)
-        expected_message = "Morning Charles Darrow, today is looking a-okay 👌 Expect of high of 8.5°C and a low of 8.2°C."  # noqa
+        expected_message = "Morning Charles Darrow, today is looking a-okay 👌 Expect a high of 8.5°C and a low of 8.2°C."  # noqa
         self.assertEquals(message, expected_message)

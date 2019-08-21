@@ -32,16 +32,16 @@ WIND_MESSAGE_CHUNKS = ["hold on tight because today is going to be windy! "]
 @attr.s(slots=True)
 class Forecast(object):
     timestamp_local: str = attr.ib()
-    wind_gust_spd: float = attr.ib()
-    wind_spd: float = attr.ib()
+    wind_gust_spd: float = attr.ib(converter=float)
+    wind_spd: float = attr.ib(converter=float)
     wind_cdir_full: str = attr.ib()
-    temp: float = attr.ib()
-    app_temp: float = attr.ib()
-    pop: int = attr.ib()
-    precip: int = attr.ib()
-    snow: int = attr.ib()
-    rh: float = attr.ib()
-    clouds: int = attr.ib()
+    temp: float = attr.ib(converter=float)
+    app_temp: float = attr.ib(converter=float)
+    pop: int = attr.ib(converter=int)
+    precip: int = attr.ib(converter=int)
+    snow: int = attr.ib(converter=int)
+    rh: float = attr.ib(converter=float)
+    clouds: int = attr.ib(converter=int)
     weather = attr.ib()
 
 
@@ -159,7 +159,7 @@ def generate_best_message(recipient: Recipient, data_points: dict) -> str:
 
     # End of message
     message += (
-        f"Expect of high of {data_points['general']['max_temp']}°C "
+        f"Expect a high of {data_points['general']['max_temp']}°C "
         f"and a low of {data_points['general']['min_temp']}°C."
     )
 
