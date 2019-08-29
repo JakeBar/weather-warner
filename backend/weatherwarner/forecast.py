@@ -22,11 +22,11 @@ KEYPOINTS = {
     "weather",
 }
 
-DEFAULT_MESSAGE_CHUNKS = ["today is looking a-okay 👌 ", "kick back and relax. "]
-RAIN_MESSAGE_CHUNKS = ["make sure to bring an umbrella today ☂️  "]
-HOT_MESSAGE_CHUNKS = ["hope you live a in fridge, because today is bloody hot. "]
-COLD_MESSAGE_CHUNKS = ["brr did someone leave the fridge open? 🥶  "]
-WIND_MESSAGE_CHUNKS = ["hold on tight because today is going to be windy! "]
+DEFAULT_MESSAGE_CHUNKS = ["today is looking a-okay 👌", "kick back and relax."]
+RAIN_MESSAGE_CHUNKS = ["make sure to bring an umbrella today ☂️"]
+HOT_MESSAGE_CHUNKS = ["hope you live a in fridge, because today is bloody hot."]
+COLD_MESSAGE_CHUNKS = ["brr did someone leave the fridge open? 🥶"]
+WIND_MESSAGE_CHUNKS = ["hold on tight because today is going to be windy!"]
 
 
 @attr.s(slots=True)
@@ -159,7 +159,7 @@ def generate_best_message(recipient: Recipient, data_points: dict) -> str:
 
     # End of message
     message += (
-        f"Expect a high of {data_points['general']['max_temp']}°C "
+        f" Expect a high of {data_points['general']['max_temp']}°C "
         f"and a low of {data_points['general']['min_temp']}°C."
     )
 
