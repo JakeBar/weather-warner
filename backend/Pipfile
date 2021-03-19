@@ -18,7 +18,7 @@ gunicorn = "*"
 whitenoise = ">=4.1.2,<4.2"
 sentry-sdk = "~=0.10.2"
 django-webpack4-loader = "~=0.0.5"
-djangorestframework = ">=3.9.2,<3.10"
+djangorestframework = ">=3.9.2,<3.12"
 attrs = "*"
 
 [dev-packages]
