@@ -32,7 +32,7 @@
     "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",
     "jest-junit": "^7.0.0",
-    "jsdom": "^15.1.1",
+    "jsdom": "^16.5.0",
     "react-hot-loader": "^4.12.10",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
